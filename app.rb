@@ -15,8 +15,7 @@ driver.manage.timeouts.implicit_wait = 15
 # slack instance
 slack = Slack::Incoming::Webhooks.new(ENV["SLACK_WEBHOOK_URL"])
 
-# TODO：herokuのserver時間確認
-# TODO：class化？
+# TODO：class化して綺麗にする？
 def work_day?(today)
   !(today.sunday? && today.saturday? && HolidayJapan.check(today))
 end
@@ -24,7 +23,7 @@ end
 
 # 土日・祝日は実行しない
 unless work_day?(Date.today)
-  puts("holiday") and return
+  puts("Today is holiday") and return
 end
 
 # king of timeのページにログイン
@@ -35,20 +34,12 @@ driver.find_element(:id, "login_button").click
 
 # 対象の勤怠情報を取り出す
 
-# heroku schedulerで指定時間に走らせる(出勤12時, 退勤21時)
+# heroku schedulerで指定時間に走らせる(出勤12時, 退勤21:30時)
 # TODO：実行時間と密な感じ回避できない？
-
-# case Time.now.hour
-# when 12 # 出勤
-#   selector = "div.htBlock-adjastableTableF_inner > table > tbody > tr:nth-child(#{Date.today.day}) > td:nth-child(7) > p"
-# when 21 # 退勤
-#   selector = "div.htBlock-adjastableTableF_inner > table > tbody > tr:nth-child(#{Date.today.day}) > td:nth-child(8) > p"
-# end
-
 case Time.now.hour
 when 12 # 出勤
   selector = "div.htBlock-adjastableTableF_inner > table > tbody > tr:nth-child(#{Date.today.day}) > td:nth-child(7) > p"
-when 18 # 退勤
+when 21 # 退勤
   selector = "div.htBlock-adjastableTableF_inner > table > tbody > tr:nth-child(#{Date.today.day}) > td:nth-child(8) > p"
 end
 
