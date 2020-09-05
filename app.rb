@@ -23,7 +23,8 @@ end
 
 # 土日・祝日は実行しない
 unless work_day?(Date.today)
-  puts("Today is holiday") and return
+  puts("Today is holiday")
+  return
 end
 
 # king of timeのページにログイン
