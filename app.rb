@@ -17,7 +17,7 @@ slack = Slack::Incoming::Webhooks.new(ENV["SLACK_WEBHOOK_URL"])
 
 # TODO：class化して綺麗にする？
 def work_day?(today)
-  !(today.sunday? && today.saturday? && HolidayJapan.check(today))
+  !(today.sunday? || today.saturday? || HolidayJapan.check(today))
 end
 
 
