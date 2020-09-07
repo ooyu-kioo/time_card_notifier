@@ -35,12 +35,11 @@ driver.find_element(:id, "login_button").click
 
 # 対象の勤怠情報を取り出す
 
-# heroku schedulerで指定時間に走らせる(出勤12時, 退勤21:30時)
-# TODO：実行時間と密な感じ回避できない？
+# heroku schedulerで任意の時間に走らせる
 case Time.now.hour
-when 12 # 出勤
+when 10..12 # 出勤
   selector = "div.htBlock-adjastableTableF_inner > table > tbody > tr:nth-child(#{Date.today.day}) > td:nth-child(7) > p"
-when 21 # 退勤
+when 19..22 # 退勤
   selector = "div.htBlock-adjastableTableF_inner > table > tbody > tr:nth-child(#{Date.today.day}) > td:nth-child(8) > p"
 end
 
