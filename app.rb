@@ -15,7 +15,7 @@ driver.manage.timeouts.implicit_wait = 15
 # slack instance
 slack = Slack::Incoming::Webhooks.new(ENV["SLACK_WEBHOOK_URL"])
 
-# TODO：class化して綺麗にする？
+# TODO：切り出す
 def work_day?(today)
   !(today.sunday? || today.saturday? || HolidayJapan.check(today))
 end

@@ -15,6 +15,7 @@ driver.manage.timeouts.implicit_wait = 15
 # slack instance
 slack = Slack::Incoming::Webhooks.new(ENV["SLACK_WEBHOOK_URL"])
 
+# TODO：切り出す
 def work_day?(today)
   !(today.sunday? || today.saturday? || HolidayJapan.check(today))
 end
@@ -47,14 +48,17 @@ if error_message > 0
 end
 
 # 打刻申請
-driver.find_element(:id, "button_06").click if driver.find_element(:id, "button_06").text == "勤怠の確認申請"
-driver.find_element(:id, "button_06").click if driver.find_element(:id, "button_06").text == "申請"
+# 申請ボタンであることを確認してから押したいけど、うまいこと押せないのでそのままクリックする
+driver.find_element(:id, "button_06").click
+driver.find_element(:id, "button_06").click
 
 # 申請できたかの確認
 selector = "body > div > div.htBlock-mainContents > div > div.htBlock-toolbar.specific-toolbar > div:nth-child(1) > form:nth-child(1) > span"
 complete_text = "未承認の確認申請があるため、スケジュールおよび打刻の変更はできません。"
-# TODO：条件式変更
-if driver.find_element(:css, selector).text == complete_text
+
+element = driver.find_elements(:css, selector)
+
+if element.size > 0 && element[0].text == complete_text
   slack.post("Sent an approve request!!!!!!!!!!")
 else
   slack.post("Something wrong. check time card!")
