@@ -39,9 +39,9 @@ driver.find_element(:id, "login_button").click
 
 # 月末の勤怠申請を行う
 selector = "body > div > div.htBlock-mainContents > div > div.htBlock-toolbar.specific-toolbar > div:nth-child(1) > form:nth-child(1) > span"
-error_message = driver.find_element(:css, selector).text
+error_message = driver.find_elements(:css, selector).size
 
-if error_message.present?
+if error_message > 0
   slack.post("There is error, can't apply time card!")
   return
 end
