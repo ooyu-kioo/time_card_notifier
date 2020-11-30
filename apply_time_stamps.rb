@@ -54,7 +54,7 @@ driver.find_element(:id, "button_06").click
 
 # 申請できたかの確認
 selector = "body > div > div.htBlock-mainContents > div > div.htBlock-toolbar.specific-toolbar > div:nth-child(1) > form:nth-child(1) > span"
-complete_text = "未承認の確認申請があるため、スケジュールおよび打刻の変更はできません。"
+complete_text = "There is an unapproved Confirmation request. You can't edit Schedules and Time record data." # headlessだとなぜか英語表記になる
 
 element = driver.find_elements(:css, selector)
 
